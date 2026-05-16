@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Сборка ПК для 2K-гейминга · 200 000 ₽ · Май 2026</title>
+<style>
+  :root {
+    --bg: #0a0b14;
+    --bg-2: #11131f;
+    --bg-3: #181b2c;
+    --card: rgba(28, 32, 50, 0.6);
+    --card-border: rgba(120, 140, 200, 0.18);
+    --text: #e6e9f2;
+    --text-dim: #9aa3bd;
+    --text-mute: #6b7390;
+    --accent: #8b5cf6;
+    --accent-2: #06b6d4;
+    --accent-3: #f472b6;
+    --amd: #ed1c24;
+    --intel: #0071c5;
+    --nvidia: #76b900;
+    --good: #34d399;
+    --warn: #fbbf24;
+    --bad: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(at 20% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 10%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(244, 114, 182, 0.08) 0px, transparent 50%);
+    background-attachment: fixed;
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  /* HEADER */
+  header.hero {
+    padding: 80px 24px 60px;
+    text-align: center;
+    position: relative;
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    padding: 6px 14px;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+    background: rgba(139, 92, 246, 0.08);
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #67e8f9 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p.lead {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-dim);
+    max-width: 720px;
+    margin: 0 auto 40px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 32px;
+  }
+  .stat {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 16px 24px;
+    backdrop-filter: blur(10px);
+    min-width: 140px;
+  }
+  .stat .label { font-size: 11px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.1em; }
+  .stat .value { font-size: 22px; font-weight: 700; margin-top: 4px; }
+
+  /* SECTION TITLE */
+  section { padding: 60px 0; }
+  h2.section-title {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  h2.section-title .num {
+    color: var(--accent);
+    font-size: 0.6em;
+    font-weight: 500;
+    margin-right: 12px;
+    vertical-align: middle;
+  }
+  p.section-sub { color: var(--text-dim); margin-bottom: 36px; font-size: 16px; }
+
+  /* RECOMMENDATION CALLOUT */
+  .reco {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.18) 0%, rgba(6, 182, 212, 0.12) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    border-radius: 20px;
+    padding: 32px;
+    margin: 40px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .reco::before {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .reco-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(139, 92, 246, 0.25);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    margin-bottom: 16px;
+  }
+  .reco h3 { font-size: 28px; margin-bottom: 12px; }
+  .reco p { color: var(--text-dim); margin-bottom: 8px; }
+  .reco-price { font-size: 32px; font-weight: 800; color: #fff; margin-top: 16px; }
+  .reco-price small { font-size: 16px; color: var(--text-mute); font-weight: 500; }
+
+  /* BUILD CARDS GRID */
+  .builds-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .build-card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .build-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.5);
+    box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+  }
+  .build-card.amd { --brand: var(--amd); }
+  .build-card.intel { --brand: var(--intel); }
+  .brand-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--brand);
+    color: white;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-right: 8px;
+  }
+  .ram-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .color-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .color-tag.white { background: #ffffff; color: #000; }
+  .color-tag.black { background: #1a1a1a; color: #fff; border: 1px solid #333; }
+  .build-card h3 { font-size: 20px; margin: 14px 0 6px; }
+  .build-card .price-row { display: flex; align-items: baseline; gap: 8px; margin-top: 16px; }
+  .build-card .price-base { font-size: 28px; font-weight: 800; }
+  .build-card .price-upgrade {
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .build-card .price-upgrade strong { color: var(--accent-2); }
+  .build-card .tagline {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-border);
+  }
+  .badge-best {
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    background: linear-gradient(135deg, #f472b6, #8b5cf6);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+  }
+
+  /* COMPARISON TABLE */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    background: var(--card);
+    backdrop-filter: blur(10px);
+  }
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+  }
+  table.compare th, table.compare td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 14px;
+  }
+  table.compare th {
+    background: rgba(139, 92, 246, 0.08);
+    font-weight: 600;
+    color: var(--text);
+    position: sticky;
+    top: 0;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  table.compare th:first-child { width: 140px; color: var(--text-dim); }
+  table.compare td:first-child { color: var(--text-mute); font-weight: 500; }
+  table.compare tr:last-child td { border-bottom: none; }
+  table.compare tr.total td {
+    background: rgba(139, 92, 246, 0.12);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+  }
+  table.compare tr.upgrade td {
+    background: rgba(6, 182, 212, 0.08);
+    font-weight: 600;
+    color: var(--accent-2);
+  }
+  table.compare tr:hover td { background: rgba(255, 255, 255, 0.02); }
+  table.compare tr.total:hover td { background: rgba(139, 92, 246, 0.18); }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .tab {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    color: var(--text-dim);
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--text); border-color: rgba(139, 92, 246, 0.4); }
+  .tab.active {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.15));
+    border-color: rgba(139, 92, 246, 0.6);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BUILD DETAILS */
+  .build-detail {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+  }
+  .build-detail h3 { font-size: 26px; margin-bottom: 8px; }
+  .build-detail .subtitle { color: var(--text-dim); margin-bottom: 24px; }
+  .components-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin: 20px 0 24px;
+  }
+  .component {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: background 0.2s;
+  }
+  .component:hover { background: rgba(255, 255, 255, 0.05); }
+  .component .cat {
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .component .name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .component .price { font-size: 16px; font-weight: 700; color: var(--accent-2); margin-top: 2px; }
+
+  .build-totals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .total-card {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.05));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .total-card.upgrade {
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(244, 114, 182, 0.08));
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .total-card .label { font-size: 12px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.1em; }
+  .total-card .value { font-size: 30px; font-weight: 800; margin-top: 4px; }
+  .total-card .delta { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+  .pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  @media (max-width: 700px) { .pros-cons { grid-template-columns: 1fr; } }
+  .pros-cons > div {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .pros-cons h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .pros-cons .pros h4 { color: var(--good); }
+  .pros-cons .cons h4 { color: var(--warn); }
+  .pros-cons ul { list-style: none; }
+  .pros-cons li { font-size: 14px; color: var(--text-dim); padding: 4px 0; padding-left: 20px; position: relative; }
+  .pros-cons .pros li::before { content: "+"; color: var(--good); position: absolute; left: 0; font-weight: 700; }
+  .pros-cons .cons li::before { content: "−"; color: var(--warn); position: absolute; left: 0; font-weight: 700; }
+
+  /* FPS CHART */
+  .fps-table { margin-top: 24px; }
+  .fps-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .fps-row:last-child { border-bottom: none; }
+  .fps-row.head {
+    color: var(--text-mute);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+  .fps-row .game { font-weight: 600; }
+  .fps-bar-wrap { display: flex; align-items: center; gap: 12px; }
+  .fps-bar {
+    flex: 1;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+  .fps-fill {
+    height: 100%;
+    border-radius: 6px;
+    background: linear-gradient(90deg, #34d399, #06b6d4);
+    transition: width 0.6s ease;
+  }
+  .fps-fill.ti { background: linear-gradient(90deg, #8b5cf6, #f472b6); }
+  .fps-num { font-weight: 700; font-size: 14px; min-width: 80px; text-align: right; color: var(--text-dim); }
+  @media (max-width: 700px) {
+    .fps-row { grid-template-columns: 1fr; }
+    .fps-row.head { display: none; }
+  }
+
+  /* CAVEATS */
+  .caveats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .caveat {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .caveat .icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(251, 191, 36, 0.15);
+    color: var(--warn);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .caveat h4 { font-size: 16px; margin-bottom: 6px; }
+  .caveat p { color: var(--text-dim); font-size: 14px; }
+
+  /* FOOTER */
+  footer {
+    padding: 60px 24px 40px;
+    text-align: center;
+    border-top: 1px solid var(--card-border);
+    margin-top: 60px;
+    color: var(--text-mute);
+    font-size: 14px;
+  }
+  footer a {
+    color: var(--accent-2);
+    text-decoration: none;
+    margin: 0 8px;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  /* MISC */
+  .price-cell { font-variant-numeric: tabular-nums; }
+  .check-yes { color: var(--good); font-weight: 600; }
+  .check-no { color: var(--text-mute); }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .pill.white { background: rgba(255,255,255,0.9); color: #000; }
+  .pill.black { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid #333; }
+  .pill.ddr5 { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+  .pill.ddr4 { background: rgba(107, 114, 144, 0.2); color: var(--text-dim); }
+
+  @media (max-width: 700px) {
+    .build-totals { grid-template-columns: 1fr; }
+    table.compare th, table.compare td { padding: 10px 12px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container">
+    <span class="eyebrow">Подбор сборки · 2K-гейминг · Май 2026</span>
+    <h1>Игровой ПК<br>в бюджет 200 000 ₽</h1>
+    <p class="lead">Четыре сравнимые конфигурации под 1440p-гейминг на ультра-настройках. Цены актуальны на май 2026 года по данным DNS-shop.ru и Regard.ru.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="label">Бюджет</div><div class="value">200 000 ₽</div></div>
+      <div class="stat"><div class="label">Разрешение</div><div class="value">2K · 1440p</div></div>
+      <div class="stat"><div class="label">Целевой FPS</div><div class="value">80–120+</div></div>
+      <div class="stat"><div class="label">Видеокарта</div><div class="value" style="color: var(--nvidia)">NVIDIA</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- BUILD CARDS OVERVIEW -->
+<section>
+  <div class="container">
+    <h2 class="section-title"><span class="num">01</span>Четыре сборки</h2>
+    <p class="section-sub">Все комбинации CPU × RAM. Цена «база» — комплект до 200k. Цена «upgrade» — апгрейд на RTX 5070 Ti.</p>
+
+    <div class="builds-grid">
+
+      <div class="build-card amd">
+        <div>
+          <span class="brand-tag" style="background: var(--amd)">AMD</span>
+          <span class="ram-tag">DDR5</span>
+          <span class="color-tag white">белая</span>
+        </div>
+        <h3>AM5 · Premium</h3>
+        <p style="color: var(--text-dim); font-size: 14px;">Ryzen 7 7800X3D + B650 + RTX 5070</p>
+        <div class="price-row"><span class="price-base">198 800 ₽</span></div>
+        <div class="price-upgrade">с RTX 5070 Ti → <strong>226 800 ₽</strong></div>
+        <div class="tagline">Лучший игровой CPU · красивая белая сборка · долгоиграющая платформа AM5</div>
+      </div>
+
+      <div class="build-card amd">
+        <span class="badge-best">★ Лучший FPS/₽</span>
+        <div>
+          <span class="brand-tag" style="background: var(--amd)">AMD</span>
+          <span class="ram-tag">DDR4</span>
+          <span class="color-tag black">чёрная</span>
+        </div>
+        <h3>AM4 · Бюджет</h3>
+        <p style="color: var(--text-dim); font-size: 14px;">Ryzen 7 5700X3D + B550 + RTX 5070</p>
+        <div class="price-row"><span class="price-base">148 500 ₽</span></div>
+        <div class="price-upgrade">с RTX 5070 Ti → <strong>194 000 ₽</strong> (в бюджет!)</div>
+        <div class="tagline">3D V-Cache + 5070 Ti = максимум FPS в 2K · тупиковая платформа</div>
+      </div>
+
+      <div class="build-card intel">
+        <div>
+          <span class="brand-tag" style="background: var(--intel)">INTEL</span>
+          <span class="ram-tag">DDR5</span>
+          <span class="color-tag white">белая</span>
+        </div>
+        <h3>LGA1851 · Core Ultra</h3>
+        <p style="color: var(--text-dim); font-size: 14px;">Core Ultra 5 245K + B860 + RTX 5070</p>
+        <div class="price-row"><span class="price-base">184 500 ₽</span></div>
+        <div class="price-upgrade">с RTX 5070 Ti → <strong>212 500 ₽</strong></div>
+        <div class="tagline">Самая молодая платформа · 15k запас на апгрейд комплектующих</div>
+      </div>
+
+      <div class="build-card intel">
+        <div>
+          <span class="brand-tag" style="background: var(--intel)">INTEL</span>
+          <span class="ram-tag">DDR4</span>
+          <span class="color-tag black">чёрная</span>
+        </div>
+        <h3>LGA1700 · Бюджет</h3>
+        <p style="color: var(--text-dim); font-size: 14px;">Core i5-13600KF + B760 + RTX 5070</p>
+        <div class="price-row"><span class="price-base">150 800 ₽</span></div>
+        <div class="price-upgrade">с RTX 5070 Ti → <strong>196 300 ₽</strong> (в бюджет!)</div>
+        <div class="tagline">Проверенная LGA1700 · альтернатива AMD AM4 для тех, кто за Intel</div>
+      </div>
+
+    </div>
+
+    <div class="reco">
+      <span class="reco-badge">★ Рекомендация</span>
+      <h3>AMD AM4 + Ryzen 7 5700X3D + RTX 5070 Ti</h3>
+      <p>Максимум FPS на рубль в 2K-гейминге. 3D V-Cache на 5700X3D даёт стабильные 0.1% Low, а сэкономленный на платформе бюджет тратится на флагманскую RTX 5070 Ti — это +20–30% к FPS относительно базовой 5070.</p>
+      <p>Минус: AM4 — тупиковая платформа. Через 2–3 года апгрейд CPU без смены платы и памяти невозможен. Сборка под концепцию «купил — играю 3–5 лет — потом полностью обновляю».</p>
+      <div class="reco-price">194 000 ₽ <small>· укладывается в исходный бюджет 200 000 ₽</small></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section>
+  <div class="container">
+    <h2 class="section-title"><span class="num">02</span>Сравнение по компонентам</h2>
+    <p class="section-sub">Что и почему отличается между сборками.</p>
+    <div class="table-wrap">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th></th>
+            <th>AMD + DDR5</th>
+            <th>AMD + DDR4</th>
+            <th>Intel + DDR5</th>
+            <th>Intel + DDR4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Цвет</td>
+            <td><span class="pill white">белая</span></td>
+            <td><span class="pill black">чёрная</span></td>
+            <td><span class="pill white">белая</span></td>
+            <td><span class="pill black">чёрная</span></td>
+          </tr>
+          <tr>
+            <td>CPU</td>
+            <td>Ryzen 7 7800X3D BOX</td>
+            <td>Ryzen 7 5700X3D OEM</td>
+            <td>Core Ultra 5 245K BOX</td>
+            <td>Core i5-13600KF OEM</td>
+          </tr>
+          <tr>
+            <td>Цена CPU</td>
+            <td class="price-cell">41 300 ₽</td>
+            <td class="price-cell">18 000 ₽</td>
+            <td class="price-cell">24 000 ₽</td>
+            <td class="price-cell">20 300 ₽</td>
+          </tr>
+          <tr>
+            <td>Сокет</td>
+            <td>AM5</td>
+            <td>AM4</td>
+            <td>LGA1851</td>
+            <td>LGA1700</td>
+          </tr>
+          <tr>
+            <td>Мат. плата</td>
+            <td>Gigabyte B650 GAMING X AX</td>
+            <td>MSI MPG B550 GAMING PLUS</td>
+            <td>ASRock B860 Pro RS WiFi</td>
+            <td>MSI B760 GAMING PLUS WIFI DDR4</td>
+          </tr>
+          <tr>
+            <td>Цена платы</td>
+            <td class="price-cell">14 000 ₽</td>
+            <td class="price-cell">13 000 ₽</td>
+            <td class="price-cell">17 000 ₽</td>
+            <td class="price-cell">13 000 ₽</td>
+          </tr>
+          <tr>
+            <td>ОЗУ</td>
+            <td>DDR5 32GB 6000 White RGB <span class="pill ddr5">DDR5</span></td>
+            <td>DDR4 32GB 3600 Black <span class="pill ddr4">DDR4</span></td>
+            <td>DDR5 32GB 6000 White RGB <span class="pill ddr5">DDR5</span></td>
+            <td>DDR4 32GB 3600 Black <span class="pill ddr4">DDR4</span></td>
+          </tr>
+          <tr>
+            <td>Цена ОЗУ</td>
+            <td class="price-cell">49 500 ₽</td>
+            <td class="price-cell">28 000 ₽</td>
+            <td class="price-cell">49 500 ₽</td>
+            <td class="price-cell">28 000 ₽</td>
+          </tr>
+          <tr>
+            <td>GPU</td>
+            <td colspan="4" style="text-align: center; color: var(--nvidia); font-weight: 600;">Palit GeForce RTX 5070 GamingPro S OC 12GB — 59 500 ₽</td>
+          </tr>
+          <tr>
+            <td>SSD</td>
+            <td colspan="4" style="text-align: center; color: var(--text-dim);">Kingston NV3 1 ТБ M.2 NVMe PCIe 4.0 — 9 000 ₽</td>
+          </tr>
+          <tr>
+            <td>БП 750W Gold</td>
+            <td>DeepCool PQ750G WH (белый)</td>
+            <td>1stPlayer NGDP Gold</td>
+            <td>DeepCool PQ750G WH (белый)</td>
+            <td>1stPlayer NGDP Gold</td>
+          </tr>
+          <tr>
+            <td>Цена БП</td>
+            <td class="price-cell">10 500 ₽</td>
+            <td class="price-cell">8 500 ₽</td>
+            <td class="price-cell">10 500 ₽</td>
+            <td class="price-cell">8 500 ₽</td>
+          </tr>
+          <tr>
+            <td>Кулер CPU</td>
+            <td>DeepCool AK620 WH</td>
+            <td>DeepCool AK620</td>
+            <td>DeepCool AK620 WH</td>
+            <td>DeepCool AK620</td>
+          </tr>
+          <tr>
+            <td>Цена кулера</td>
+            <td class="price-cell">5 500 ₽</td>
+            <td class="price-cell">5 000 ₽</td>
+            <td class="price-cell">5 500 ₽</td>
+            <td class="price-cell">5 000 ₽</td>
+          </tr>
+          <tr>
+            <td>Корпус</td>
+            <td>Lian Li LANCOOL 205M (белый)</td>
+            <td>DeepCool CC560 V2</td>
+            <td>Lian Li LANCOOL 205M (белый)</td>
+            <td>DeepCool CC560 V2</td>
+          </tr>
+          <tr>
+            <td>Цена корпуса</td>
+            <td class="price-cell">9 500 ₽</td>
+            <td class="price-cell">7 500 ₽</td>
+            <td class="price-cell">9 500 ₽</td>
+            <td class="price-cell">7 500 ₽</td>
+          </tr>
+          <tr class="total">
+            <td>Итого (база)</td>
+            <td class="price-cell">198 800 ₽</td>
+            <td class="price-cell">148 500 ₽</td>
+            <td class="price-cell">184 500 ₽</td>
+            <td class="price-cell">150 800 ₽</td>
+          </tr>
+          <tr class="upgrade">
+            <td>+ RTX 5070 Ti</td>
+            <td class="price-cell">226 800 ₽</td>
+            <td class="price-cell">194 000 ₽ ★</td>
+            <td class="price-cell">212 500 ₽</td>
+            <td class="price-cell">196 300 ₽ ★</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color: var(--text-mute); font-size: 13px; margin-top: 12px;">★ Апгрейд укладывается в бюджет 200 000 ₽.</p>
+  </div>
+</section>
+
+<!-- BUILD DETAILS WITH TABS -->
+<section>
+  <div class="container">
+    <h2 class="section-title"><span class="num">03</span>Детали по каждой сборке</h2>
+    <p class="section-sub">Полный состав, плюсы и минусы.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="t1">AMD + DDR5 (белая)</button>
+      <button class="tab" data-tab="t2">AMD + DDR4 (бюджет)</button>
+      <button class="tab" data-tab="t3">Intel + DDR5 (белая)</button>
+      <button class="tab" data-tab="t4">Intel + DDR4 (бюджет)</button>
+    </div>
+
+    <!-- AMD DDR5 -->
+    <div class="tab-panel active" id="t1">
+      <div class="build-detail">
+        <h3>AMD AM5 + DDR5 · белая премиум-сборка</h3>
+        <p class="subtitle">Ryzen 7 7800X3D — эталонный игровой CPU. Полностью белая эстетика.</p>
+        <div class="components-grid">
+          <div class="component"><span class="cat">CPU</span><span class="name">AMD Ryzen 7 7800X3D BOX</span><span class="price">41 300 ₽</span></div>
+          <div class="component"><span class="cat">Кулер</span><span class="name">DeepCool AK620 WH (белый)</span><span class="price">5 500 ₽</span></div>
+          <div class="component"><span class="cat">Мат. плата</span><span class="name">Gigabyte B650 GAMING X AX</span><span class="price">14 000 ₽</span></div>
+          <div class="component"><span class="cat">ОЗУ</span><span class="name">Kingston FURY Beast White RGB DDR5 32GB 6000</span><span class="price">49 500 ₽</span></div>
+          <div class="component"><span class="cat">Видеокарта</span><span class="name">Palit RTX 5070 GamingPro S OC 12GB</span><span class="price">59 500 ₽</span></div>
+          <div class="component"><span class="cat">SSD</span><span class="name">Kingston NV3 1 ТБ NVMe</span><span class="price">9 000 ₽</span></div>
+          <div class="component"><span class="cat">БП</span><span class="name">DeepCool PQ750G WH 750W Gold</span><span class="price">10 500 ₽</span></div>
+          <div class="component"><span class="cat">Корпус</span><span class="name">Lian Li LANCOOL 205M MESH (белый)</span><span class="price">9 500 ₽</span></div>
+        </div>
+        <div class="build-totals">
+          <div class="total-card"><div class="label">Базовая цена</div><div class="value">198 800 ₽</div><div class="delta">в бюджет 200k</div></div>
+          <div class="total-card upgrade"><div class="label">+ RTX 5070 Ti</div><div class="value">226 800 ₽</div><div class="delta">−17.5k за чёрную ОЗУ, +45.5k за GPU</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Плюсы</h4>
+            <ul>
+              <li>Лучший игровой CPU в мейнстриме (3D V-Cache)</li>
+              <li>Полностью белая сборка из коробки</li>
+              <li>Платформа AM5 — есть запас на апгрейд CPU</li>
+              <li>DDR5 6000 CL30 — sweet spot для AM5</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Минусы</h4>
+            <ul>
+              <li>Белый RGB DDR5 жрёт 25% бюджета (49.5k)</li>
+              <li>RTX 5070 Ti не помещается в 200k</li>
+              <li>Возможна нужна прошивка BIOS под 7800X3D</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AMD DDR4 -->
+    <div class="tab-panel" id="t2">
+      <div class="build-detail">
+        <h3>AMD AM4 + DDR4 · бюджетная сборка с топовым GPU</h3>
+        <p class="subtitle">Платформа дешевле, бюджет уходит на RTX 5070 Ti.</p>
+        <div class="components-grid">
+          <div class="component"><span class="cat">CPU</span><span class="name">AMD Ryzen 7 5700X3D OEM</span><span class="price">18 000 ₽</span></div>
+          <div class="component"><span class="cat">Кулер</span><span class="name">DeepCool AK620 (чёрный)</span><span class="price">5 000 ₽</span></div>
+          <div class="component"><span class="cat">Мат. плата</span><span class="name">MSI MPG B550 GAMING PLUS</span><span class="price">13 000 ₽</span></div>
+          <div class="component"><span class="cat">ОЗУ</span><span class="name">Kingston FURY Beast Black DDR4 32GB 3600</span><span class="price">28 000 ₽</span></div>
+          <div class="component"><span class="cat">Видеокарта</span><span class="name">Palit RTX 5070 GamingPro S OC 12GB</span><span class="price">59 500 ₽</span></div>
+          <div class="component"><span class="cat">SSD</span><span class="name">Kingston NV3 1 ТБ NVMe</span><span class="price">9 000 ₽</span></div>
+          <div class="component"><span class="cat">БП</span><span class="name">1stPlayer NGDP Gold 750W</span><span class="price">8 500 ₽</span></div>
+          <div class="component"><span class="cat">Корпус</span><span class="name">DeepCool CC560 V2 (есть и белый)</span><span class="price">7 500 ₽</span></div>
+        </div>
+        <div class="build-totals">
+          <div class="total-card"><div class="label">Базовая цена</div><div class="value">148 500 ₽</div><div class="delta">экономия 51.5k от лимита</div></div>
+          <div class="total-card upgrade"><div class="label">+ RTX 5070 Ti</div><div class="value">194 000 ₽</div><div class="delta">★ в бюджет 200k</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Плюсы</h4>
+            <ul>
+              <li>RTX 5070 Ti помещается прямо в 200k</li>
+              <li>3D V-Cache → ровные 0.1% Low в играх</li>
+              <li>Дешёвая зрелая платформа, BIOS отлажен</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Минусы</h4>
+            <ul>
+              <li>AM4 — закрытая, апгрейд только через смену всей платформы</li>
+              <li>PCIe 4.0 только на главных слотах</li>
+              <li>DDR4 32GB в 2026 дороже, чем был в 2024</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intel DDR5 -->
+    <div class="tab-panel" id="t3">
+      <div class="build-detail">
+        <h3>Intel LGA1851 + DDR5 · свежая платформа Core Ultra</h3>
+        <p class="subtitle">Arrow Lake — самый новый сокет от Intel. Белая сборка.</p>
+        <div class="components-grid">
+          <div class="component"><span class="cat">CPU</span><span class="name">Intel Core Ultra 5 245K BOX</span><span class="price">24 000 ₽</span></div>
+          <div class="component"><span class="cat">Кулер</span><span class="name">DeepCool AK620 WH (белый)</span><span class="price">5 500 ₽</span></div>
+          <div class="component"><span class="cat">Мат. плата</span><span class="name">ASRock B860 Pro RS WiFi</span><span class="price">17 000 ₽</span></div>
+          <div class="component"><span class="cat">ОЗУ</span><span class="name">Kingston FURY Beast White RGB DDR5 32GB 6000</span><span class="price">49 500 ₽</span></div>
+          <div class="component"><span class="cat">Видеокарта</span><span class="name">Palit RTX 5070 GamingPro S OC 12GB</span><span class="price">59 500 ₽</span></div>
+          <div class="component"><span class="cat">SSD</span><span class="name">Kingston NV3 1 ТБ NVMe</span><span class="price">9 000 ₽</span></div>
+          <div class="component"><span class="cat">БП</span><span class="name">DeepCool PQ750G WH 750W Gold</span><span class="price">10 500 ₽</span></div>
+          <div class="component"><span class="cat">Корпус</span><span class="name">Lian Li LANCOOL 205M MESH (белый)</span><span class="price">9 500 ₽</span></div>
+        </div>
+        <div class="build-totals">
+          <div class="total-card"><div class="label">Базовая цена</div><div class="value">184 500 ₽</div><div class="delta">15.5k запас</div></div>
+          <div class="total-card upgrade"><div class="label">+ RTX 5070 Ti</div><div class="value">212 500 ₽</div><div class="delta">−17.5k за чёрную ОЗУ, +45.5k за GPU</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Плюсы</h4>
+            <ul>
+              <li>Самая молодая платформа (Arrow Lake)</li>
+              <li>Запас на апгрейд CPU до Core Ultra 7/9</li>
+              <li>В чистом 2K разница с 7800X3D незаметна</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Минусы</h4>
+            <ul>
+              <li>Arrow Lake в играх медленнее 7800X3D на 5–10%</li>
+              <li>Дорогие платы LGA1851 (от 15.5k)</li>
+              <li>В BOX 245K кулера нет (K-серия)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Intel DDR4 -->
+    <div class="tab-panel" id="t4">
+      <div class="build-detail">
+        <h3>Intel LGA1700 + DDR4 · бюджетная альтернатива AMD AM4</h3>
+        <p class="subtitle">Raptor Lake, проверенная связка с большим запасом на GPU.</p>
+        <div class="components-grid">
+          <div class="component"><span class="cat">CPU</span><span class="name">Intel Core i5-13600KF OEM</span><span class="price">20 300 ₽</span></div>
+          <div class="component"><span class="cat">Кулер</span><span class="name">DeepCool AK620 (чёрный)</span><span class="price">5 000 ₽</span></div>
+          <div class="component"><span class="cat">Мат. плата</span><span class="name">MSI B760 GAMING PLUS WIFI DDR4</span><span class="price">13 000 ₽</span></div>
+          <div class="component"><span class="cat">ОЗУ</span><span class="name">Kingston FURY Beast Black DDR4 32GB 3600</span><span class="price">28 000 ₽</span></div>
+          <div class="component"><span class="cat">Видеокарта</span><span class="name">Palit RTX 5070 GamingPro S OC 12GB</span><span class="price">59 500 ₽</span></div>
+          <div class="component"><span class="cat">SSD</span><span class="name">Kingston NV3 1 ТБ NVMe</span><span class="price">9 000 ₽</span></div>
+          <div class="component"><span class="cat">БП</span><span class="name">1stPlayer NGDP Gold 750W</span><span class="price">8 500 ₽</span></div>
+          <div class="component"><span class="cat">Корпус</span><span class="name">DeepCool CC560 V2</span><span class="price">7 500 ₽</span></div>
+        </div>
+        <div class="build-totals">
+          <div class="total-card"><div class="label">Базовая цена</div><div class="value">150 800 ₽</div><div class="delta">экономия 49k от лимита</div></div>
+          <div class="total-card upgrade"><div class="label">+ RTX 5070 Ti</div><div class="value">196 300 ₽</div><div class="delta">★ в бюджет 200k</div></div>
+        </div>
+        <div class="pros-cons">
+          <div class="pros">
+            <h4>Плюсы</h4>
+            <ul>
+              <li>RTX 5070 Ti помещается в 200k</li>
+              <li>i5-13600KF на уровне Core Ultra 5 в играх</li>
+              <li>Дешёвые B760 DDR4 (от 7k за mATX)</li>
+            </ul>
+          </div>
+          <div class="cons">
+            <h4>Минусы</h4>
+            <ul>
+              <li>LGA1700 — закрытая платформа</li>
+              <li>KF без iGPU — если GPU умрёт, картинки нет</li>
+              <li>13600KF горячий (181W), кулер не на минимуме</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FPS BENCHMARK -->
+<section>
+  <div class="container">
+    <h2 class="section-title"><span class="num">04</span>Производительность в 2K</h2>
+    <p class="section-sub">Средний FPS в современных играх на ультра-настройках. Зелёный — RTX 5070, фиолетовый — RTX 5070 Ti.</p>
+
+    <div class="table-wrap" style="padding: 8px 0;">
+      <div class="fps-table">
+        <div class="fps-row head">
+          <div>Игра</div>
+          <div>RTX 5070</div>
+          <div>RTX 5070 Ti</div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Cyberpunk 2077 (RT off)</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 67%"></div></div><span class="fps-num">90–110</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 84%"></div></div><span class="fps-num">115–135</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Cyberpunk 2077 (RT ultra + DLSS Q)</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 53%"></div></div><span class="fps-num">70–85</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 72%"></div></div><span class="fps-num">95–115</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Hogwarts Legacy</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 67%"></div></div><span class="fps-num">90–110</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 84%"></div></div><span class="fps-num">115–135</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Alan Wake 2 (RT off)</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 53%"></div></div><span class="fps-num">70–85</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 67%"></div></div><span class="fps-num">90–110</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Counter-Strike 2</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 90%"></div></div><span class="fps-num">280–350</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 100%"></div></div><span class="fps-num">320–400</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Baldur's Gate 3</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 75%"></div></div><span class="fps-num">100–130</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 90%"></div></div><span class="fps-num">130–160</span></div>
+        </div>
+
+        <div class="fps-row">
+          <div class="game">Spider-Man 2</div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill" style="width: 72%"></div></div><span class="fps-num">100–120</span></div>
+          <div class="fps-bar-wrap"><div class="fps-bar"><div class="fps-fill ti" style="width: 88%"></div></div><span class="fps-num">130–150</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p style="color: var(--text-mute); font-size: 13px; margin-top: 16px;">Цифры приблизительные, основаны на референсных тестах. Разница CPU между сборками в 2K обычно 3–8%.</p>
+  </div>
+</section>
+
+<!-- CAVEATS -->
+<section>
+  <div class="container">
+    <h2 class="section-title"><span class="num">05</span>Что важно знать</h2>
+    <p class="section-sub">Контекст по ценам, платформам и подводным камням.</p>
+    <div class="caveats-grid">
+      <div class="caveat">
+        <div class="icon">$</div>
+        <h4>AI-кризис памяти</h4>
+        <p>В 2026 DDR4/DDR5 и NVMe SSD стоят на 30–50% дороже, чем в 2024. Если есть терпение — можно подождать падения.</p>
+      </div>
+      <div class="caveat">
+        <div class="icon">⚙</div>
+        <h4>Прошивка BIOS</h4>
+        <p>На AM4/AM5/LGA1700 при свежем CPU + старой ревизии платы может понадобиться обновление BIOS. В DNS услуга стоит 500–1500 ₽.</p>
+      </div>
+      <div class="caveat">
+        <div class="icon">⌛</div>
+        <h4>Тупиковые платформы</h4>
+        <p>AM4 и LGA1700 больше не получат новых CPU. Это сборка «купил — играй 3–5 лет — собирай новую». AM5/LGA1851 — с заделом.</p>
+      </div>
+      <div class="caveat">
+        <div class="icon">📅</div>
+        <h4>Цены плавают</h4>
+        <p>Колебания цен на горизонте 1–2 недель — до ±5%, на 1–2 месяца — до ±15%. Перед покупкой обязательно сверьте актуальный прайс.</p>
+      </div>
+      <div class="caveat">
+        <div class="icon">!</div>
+        <h4>KF без iGPU</h4>
+        <p>i5-13600KF не имеет встроенной графики. Если GPU выйдет из строя — картинку не выведешь. Версия 13600K стоит +1.5–2k и имеет iGPU.</p>
+      </div>
+      <div class="caveat">
+        <div class="icon">✓</div>
+        <h4>QVL-лист памяти</h4>
+        <p>Перед покупкой ОЗУ сверяйтесь с QVL-листом материнки. Особенно критично для DDR5 6000 на AM5.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Цены: <a href="https://www.dns-shop.ru/" target="_blank">DNS-shop.ru</a> · <a href="https://www.regard.ru/" target="_blank">Regard.ru</a> · актуальны на май 2026</p>
+  <p style="margin-top: 8px; font-size: 12px;">Подробности по каждой сборке см. в файлах amd-ddr5.md, amd-ddr4.md, intel-ddr5.md, intel-ddr4.md, comparison.md</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var id = tab.dataset.tab;
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      document.getElementById(id).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
